@@ -16,7 +16,7 @@ public class Lec04AggregatorDemo {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-        var executor = Executors.newVirtualThreadPerTaskExecutor();
+        var executor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().name("tze",1).factory());
         var aggregator = new AggregatorService(executor);
 
         var futures = IntStream.rangeClosed(1, 50)
