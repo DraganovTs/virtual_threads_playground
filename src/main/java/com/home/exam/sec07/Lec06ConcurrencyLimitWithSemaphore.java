@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 
 
-public class Lec05ConcurrencyLimitWithSemaphore {
+public class Lec06ConcurrencyLimitWithSemaphore {
 
-    private static final Logger log = LoggerFactory.getLogger(Lec05ConcurrencyLimitWithSemaphore.class);
+    private static final Logger log = LoggerFactory.getLogger(Lec06ConcurrencyLimitWithSemaphore.class);
 
 
     public static void main(String[] args) throws Exception {

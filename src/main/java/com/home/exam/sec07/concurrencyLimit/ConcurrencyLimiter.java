@@ -3,33 +3,33 @@ package com.home.exam.sec07.concurrencyLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.Semaphore;
+import java.util.Queue;
+import java.util.concurrent.*;
 
 public class ConcurrencyLimiter implements AutoCloseable{
 
     private static final Logger log = LoggerFactory.getLogger(ConcurrencyLimiter.class);
 
-
+    private final Queue<Callable<?>> queue;
     private final ExecutorService executor;
     private final Semaphore semaphore;
 
-    public ConcurrencyLimiter(ExecutorService executor, int limit) {
+    public ConcurrencyLimiter( ExecutorService executor, int limit) {
+        this.queue = new ConcurrentLinkedQueue<>();
         this.executor = executor;
         this.semaphore = new Semaphore(limit);
     }
 
 
     public <T> Future<T> submit(Callable<T> callable) {
-        return executor.submit(() -> wrapCallable(callable));
+        this.queue.add(callable);
+        return executor.submit(() -> executeTask());
     }
 
-    private <T> T wrapCallable(Callable<T> callable) {
+    private <T> T executeTask() {
         try {
             semaphore.acquire();
-            return callable.call();
+            return (T)this.queue.poll().call();
         } catch (Exception e) {
             log.error("error", e);
         } finally {

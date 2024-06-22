@@ -15,7 +15,7 @@ public class Lec05ConcurrencyLimit {
 
     public static void main(String[] args) {
         var factory = Thread.ofVirtual().name("tze",1).factory();
-        execute(Executors.newFixedThreadPool(3,factory),20);
+        execute(Executors.newFixedThreadPool(3),20);
     }
 
     private static void execute(ExecutorService executorService, int taskCount) {
