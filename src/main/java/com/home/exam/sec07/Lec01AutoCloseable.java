@@ -17,6 +17,7 @@ public class Lec01AutoCloseable {
 //        executorService.submit(Lec01AutoCloseable::task);
 //        log.info("submitted");
 //        executorService.shutdown();
+        //
 
         try (var executorService = Executors.newSingleThreadExecutor()) {
             executorService.submit(Lec01AutoCloseable::task);
